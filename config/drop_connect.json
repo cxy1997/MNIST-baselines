@@ -2,7 +2,10 @@
     "model_name": "drop_connect_net",
     "flatten": true,
     "seed": 233,
-    "framework": "pytorch",
-    "epochs": 1000,
-    "save_freq": 1
+    "epochs": 6,
+    "save_freq": 1,
+    "batch_size": 256,
+    "optimizer": "Adam",
+    "lr": 0.001,
+    "criterion": "CrossEntropyLoss"
 }

@@ -2,6 +2,7 @@ from __future__ import division, print_function
 import numpy as np
 import torch
 import torch.nn as nn
+from torch.nn import Parameter
 import torch.nn.functional as F
 from torch.autograd import Variable
 from utils import weights_init
@@ -10,13 +11,13 @@ class drop_connect_layer(nn.Module):
     def __init__(self, in_channels, out_channels, prob=0.5, bias=True):
         super(drop_connect_layer, self).__init__()
 
-        self.weight = Variable(torch.zeros(out_channels, in_channels), requires_grad=True)
+        self.weight = Parameter(torch.zeros(out_channels, in_channels), requires_grad=True)
         w_bound = np.sqrt(6. / (out_channels + in_channels))
         self.weight.data.uniform_(-w_bound, w_bound)
         self.weight_dropout = nn.Dropout(p=prob)
 
         if bias:
-            self.bias = Variable(torch.zeros(out_channels), requires_grad=True)
+            self.bias = Parameter(torch.zeros(out_channels), requires_grad=True)
             self.bias.data.fill_(0)
             self.bias_dropout = nn.Dropout(p=prob)
         else:
