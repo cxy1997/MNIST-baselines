@@ -6,6 +6,6 @@
     "save_freq": 10,
     "batch_size": 256,
     "optimizer": "Adam",
-    "lr": 0.001,
+    "lr": 0.1,
     "criterion": "CrossEntropyLoss"
 }

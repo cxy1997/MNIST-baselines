@@ -41,6 +41,7 @@ if __name__ == "__main__":
         model.load_state_dict(torch.load(model_path))
     if torch.cuda.is_available():
         model = model.cuda()
+    model.train()
     optimizer = locate("torch.optim.%s" % config["optimizer"])(model.parameters(), lr = config["lr"])
     logger = setup_logger(args.method, os.path.join(args.log_dir, "%s.log" % args.method))
 
