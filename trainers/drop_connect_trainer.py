@@ -30,6 +30,8 @@ def train(data, model, optimizer, logger, config):
         prediction = np.zeros(data.DATA_SIZE[1], dtype=np.uint8)
         for i in range(batches):
             inputs = Variable(torch.from_numpy(data.data_test[i * config["batch_size"]: min((i + 1) * config["batch_size"], data.DATA_SIZE[1]), :]), requires_grad=False)
+            if torch.cuda.is_available():
+                inputs = inputs.cuda()
             with torch.no_grad():
                 outputs = model(inputs)
             prediction[i * config["batch_size"]: min((i + 1) * config["batch_size"], data.DATA_SIZE[1])] = np.argmin(outputs.data.cpu().numpy(), axis=1)
