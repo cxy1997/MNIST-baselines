@@ -40,7 +40,7 @@ class MnistLoader(object):
         # save the figure
         im = Image.fromarray(self.data_train[ind].reshape(self.FIG_W, self.FIG_W))
         im.show()
-        im.save("demo.png")
+        # im.save("demo.png")
 
 if __name__ == '__main__':
     loader = MnistLoader()

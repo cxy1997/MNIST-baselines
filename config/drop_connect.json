@@ -1,0 +1,8 @@
+{
+    "model_name": "drop_connect_net",
+    "flatten": true,
+    "seed": 233,
+    "framework": "pytorch",
+    "epochs": 1000,
+    "save_freq": 1
+}

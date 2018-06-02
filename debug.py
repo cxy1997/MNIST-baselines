@@ -1,5 +1,14 @@
-from mnist.mnist_train.data_loader import DataLoader
+from __future__ import division, print_function
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.autograd import Variable
+from models.drop_connect import drop_connect_layer
 
 if __name__ == '__main__':
-    dataloader = DataLoader()
-    dataloader.demo()
+    x = Variable(torch.ones(5, 3))
+    print(x)
+    f = drop_connect_layer(3, 5)
+    y = f(x)
+    print(y)
