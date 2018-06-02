@@ -39,4 +39,4 @@ class drop_connect_net(nn.Module):
     def forward(self, x):
         x = F.relu(self.dc1(x))
         x = F.relu(self.dc2(x))
-        return F.relu(self.dc3(x))
+        return self.dc3(x)

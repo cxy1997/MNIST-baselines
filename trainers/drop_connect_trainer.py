@@ -34,7 +34,7 @@ def train(data, model, optimizer, logger, config):
                 inputs = inputs.cuda()
             with torch.no_grad():
                 outputs = model(inputs)
-            prediction[i * config["batch_size"]: min((i + 1) * config["batch_size"], data.DATA_SIZE[1])] = np.argmin(outputs.data.cpu().numpy(), axis=1)
+            prediction[i * config["batch_size"]: min((i + 1) * config["batch_size"], data.DATA_SIZE[1])] = np.argmax(outputs.data.cpu().numpy(), axis=1)
         accuracy = accuracy_score(data.label_test, prediction)
         logger.info("Epoch: %d, loss: %0.6f, accuracy: %0.6f" % (epoch, loss.data.cpu().numpy(), accuracy))
 
