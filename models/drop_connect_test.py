@@ -26,9 +26,9 @@ class drop_connect_layer(nn.Module):
         bias = self.bias_dropout(self.bias) if self.bias is not None else None
         return F.linear(x, weight, bias)
 
-class drop_connect_net(nn.Module):
+class drop_connect_net_test(nn.Module):
     def __init__(self, in_features=784, classes=10, prob=0.5, bias=True):
-        super(drop_connect_net, self).__init__()
+        super(drop_connect_net_test, self).__init__()
 
         self.dc1 = drop_connect_layer(in_features, 400, prob=prob, bias=bias)
         self.dc2 = drop_connect_layer(400, classes, prob=prob, bias=bias)
