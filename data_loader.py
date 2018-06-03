@@ -4,6 +4,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
 
 from pca import pca
 
@@ -56,13 +57,14 @@ class MnistLoader(object):
 
     def pca(self, var_per=0.99):
         lowD_train = pca(self.data_train, var_per)
-        lowD_test = pca(self.data_test, var_per)
+        pca_op = PCA(n_components=lowD_train.shape[1])
+        lowD_test = pca_op.fit_transform(self.data_test)
 
         print(lowD_train.shape)
         print(lowD_test.shape)
 
-        np.save('pca_models/mnist_train_data_%d.npy' % int(100 * var_per), lowD_train)
-        np.save('pca_models/mnist_test_data_%d.npy' % int(100 * var_per), lowD_test)
+        np.save('pca_models/mnist_train_data_%.2f.npy' % var_per, lowD_train)
+        np.save('pca_models/mnist_test_data_%.2f.npy' % var_per, lowD_test)
 
 class NormalMnistLoader(object):
     DATA_SIZE = (60000, 10000)       # number of figures
@@ -134,6 +136,7 @@ class NormalMnistLoader(object):
         # im.save("demo.png")
 
 if __name__ == '__main__':
-    loader = MnistLoader()
-    for i in range(4):
+    loader = MnistLoader(flatten=True)
+    for i in range(6):
+    	print('-------------- pca %.2f ------------------' % (0.95 - 0.05 * i))
     	loader.pca(0.95 - 0.05 * i)
