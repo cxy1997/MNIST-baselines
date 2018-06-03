@@ -42,8 +42,8 @@ if __name__ == "__main__":
     if torch.cuda.is_available():
         model = model.cuda()
     model.train()
-    optimizer = locate("torch.optim.%s" % config["optimizer"])(model.parameters(), lr = config["lr"])
-    logger = setup_logger(args.method, os.path.join(args.log_dir, "%s.log" % args.method))
+    optimizer = locate("torch.optim.%s" % config["optimizer"])(model.parameters(), lr = config["lr"], weight_decay=config["weight_decay"])
+    logger = setup_logger(args.method, os.path.join(args.log_dir, "%s.log" % args.method), resume=args.resume)
 
     train = locate("trainers.%s_trainer.train" % args.method)
     train(data, model, optimizer, logger, config)

@@ -11,10 +11,10 @@ def init_dir(dir):
     if not os.path.isdir(dir):
         os.mkdir(dir)
 
-def setup_logger(logger_name, log_file, level = logging.INFO):
+def setup_logger(logger_name, log_file, level = logging.INFO, resume=False):
     l = logging.getLogger(logger_name)
     formatter = logging.Formatter('%(asctime)s: %(message)s')
-    fileHandler = logging.FileHandler(log_file, mode = 'w')
+    fileHandler = logging.FileHandler(log_file, mode='a' if resume else 'w')
     fileHandler.setFormatter(formatter)
     streamHandler = logging.StreamHandler()
     streamHandler.setFormatter(formatter)

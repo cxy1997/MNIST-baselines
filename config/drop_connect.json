@@ -3,9 +3,10 @@
     "flatten": true,
     "seed": 233,
     "epochs": 100000,
-    "save_freq": 10,
-    "batch_size": 256,
+    "save_freq": 0,
+    "batch_size": 1024,
     "optimizer": "Adam",
-    "lr": 0.1,
+    "lr": 5e-6,
+    "weight_decay": 0.0001,
     "criterion": "CrossEntropyLoss"
 }

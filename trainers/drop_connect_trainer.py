@@ -28,16 +28,21 @@ def train(data, model, optimizer, logger, config):
 
         batches = (data.DATA_SIZE[1] + config["batch_size"] - 1) // config["batch_size"]
         prediction = np.zeros(data.DATA_SIZE[1], dtype=np.uint8)
+        for param in model.parameters():
+            param.requires_grad = False
+        model.eval()
         for i in range(batches):
             inputs = Variable(torch.from_numpy(data.data_test[i * config["batch_size"]: min((i + 1) * config["batch_size"], data.DATA_SIZE[1]), :]), requires_grad=False)
             if torch.cuda.is_available():
                 inputs = inputs.cuda()
-            with torch.no_grad():
-                outputs = model(inputs)
+            outputs = model(inputs)
             prediction[i * config["batch_size"]: min((i + 1) * config["batch_size"], data.DATA_SIZE[1])] = np.argmax(outputs.data.cpu().numpy(), axis=1)
+        for param in model.parameters():
+            param.requires_grad = True
+        model.train()
         accuracy = accuracy_score(data.label_test, prediction)
         logger.info("Epoch: %d, loss: %0.6f, accuracy: %0.6f" % (epoch, loss.data.cpu().numpy(), accuracy))
 
-        if epoch % config["save_freq"] == 0:
+        if config["save_freq"] > 0 and epoch % config["save_freq"] == 0:
             torch.save(model.state_dict(), os.path.join(config["model_dir"], config["method"], "epoch_%d.pth" % epoch))
             
