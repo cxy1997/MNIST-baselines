@@ -6,7 +6,6 @@ from sklearn.metrics import accuracy_score
 import os
 from pydoc import locate
 
-
 def train(data, model, optimizer, logger, config):
     criterion = locate("torch.nn.%s" % config["criterion"])()
     if torch.cuda.is_available():

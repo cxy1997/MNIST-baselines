@@ -5,6 +5,8 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
+from pca import pca
+
 class MnistLoader(object):
     DATA_SIZE = (60000, 10000)       # number of figures
     FIG_W = 45                      # width of each figure
@@ -51,6 +53,16 @@ class MnistLoader(object):
         plt.imshow(self.data_train[ind].reshape(self.FIG_W, self.FIG_W))
         plt.show()
         # im.save("demo.png")
+
+    def pca(self, var_per=0.99):
+        lowD_train = pca(self.data_train, var_per)
+        lowD_test = pca(self.data_test, var_per)
+
+        print(lowD_train.shape)
+        print(lowD_test.shape)
+
+        np.save('pca_models/mnist_train_data_%d.npy' % int(100 * var_per), lowD_train)
+        np.save('pca_models/mnist_test_data_%d.npy' % int(100 * var_per), lowD_test)
 
 class NormalMnistLoader(object):
     DATA_SIZE = (60000, 10000)       # number of figures
@@ -122,5 +134,6 @@ class NormalMnistLoader(object):
         # im.save("demo.png")
 
 if __name__ == '__main__':
-    loader = NormalMnistLoader()
-    loader.demo()
+    loader = MnistLoader()
+    for i in range(4):
+    	loader.pca(0.95 - 0.05 * i)
