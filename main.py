@@ -33,8 +33,8 @@ if __name__ == "__main__":
     torch.manual_seed(config["seed"])
     torch.set_default_tensor_type('torch.FloatTensor')
 
-    data = MnistLoader(flatten=config["flatten"], data_path=args.data_dir)
-    model = locate("models.%s.%s" % (args.method, config["model_name"]))()
+    data = MnistLoader(flatten=config["flatten"], data_path=args.data_dir, var_per=0.80)
+    model = locate("models.%s.%s" % (args.method, config["model_name"]))(in_features=data.data_train.shape[1])
     if args.resume:
         model_path, config["last_epoch"] = latest_model(args.model_dir, args.method)
         print("Loading latest model from %s" % model_path)
