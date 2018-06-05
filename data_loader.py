@@ -19,9 +19,10 @@ class MnistLoader(object):
         '''
         :param data_path: the path to mnist dataset
         '''
+        self.flatten = flatten
         if var_per == None:
             self._load(data_path)
-        elif not os.path.exist('pca_models/mnist_train_data_%.2f.npy', % var_per):
+        elif not os.path.exists('pca_models/mnist_train_data_%.2f.npy' % var_per):
             self._load(data_path)
             self.pca(var_per)
         else:
@@ -34,11 +35,6 @@ class MnistLoader(object):
         self.data_train = (self.data_train - self.data_train.mean()) / self.data_train.std()
         self.data_test = (self.data_test - self.data_test.mean()) / self.data_test.std()
 
-        if flatten:
-            self.data_train = self.data_train.reshape(self.data_train.shape[0], -1)
-            self.data_test = self.data_test.reshape(self.data_test.shape[0], -1)
-
-
     def _load(self, data_path='data', var_per=None):
         if var_per == None:
             self.data_train = np.concatenate([np.load(os.path.join(data_path, 'mnist_train', 'mnist_train_data_part1.npy')), np.load(os.path.join(data_path, 'mnist_train', 'mnist_train_data_part2.npy'))], axis=0).astype(np.float32)
@@ -46,10 +42,14 @@ class MnistLoader(object):
             self.data_test = np.load(os.path.join(data_path, 'mnist_test', 'mnist_test_data.npy')).astype(np.float32)
             self.label_test = np.load(os.path.join(data_path, 'mnist_test', 'mnist_test_label.npy')).astype(np.int64)
         else:
-            self.data_train = np.load(os.path.join(data_path, 'pca_models', 'mnist_train_data_%.2f.npy' % var_per)).astype(np.float32)
+            self.data_train = np.load(os.path.join('pca_models', 'mnist_train_data_%.2f.npy' % var_per)).astype(np.float32)
             self.label_train = np.load(os.path.join(data_path, 'mnist_train', 'mnist_train_label.npy')).astype(np.int64)
-            self.data_test = np.load(os.path.join(data_path, 'pca_models', 'mnist_test_data_%.2f.npy' % var_per)).astype(np.float32)
+            self.data_test = np.load(os.path.join('pca_models', 'mnist_test_data_%.2f.npy' % var_per)).astype(np.float32)
             self.label_test = np.load(os.path.join(data_path, 'mnist_test', 'mnist_test_label.npy')).astype(np.int64)
+
+        if self.flatten:
+            self.data_train = self.data_train.reshape(self.data_train.shape[0], -1)
+            self.data_test = self.data_test.reshape(self.data_test.shape[0], -1)
 
     def demo(self):
         # show the structure of data & label

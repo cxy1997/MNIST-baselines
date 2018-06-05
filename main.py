@@ -16,6 +16,7 @@ parser.add_argument("--config-dir", type=str, default="config")
 parser.add_argument("--data-dir", type=str, default="data")
 parser.add_argument("--model-dir", type=str, default="trained_models")
 parser.add_argument("--log-dir", type=str, default="logs")
+parser.add_argument("--cuda", type=bool, default=False)
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -35,11 +36,12 @@ if __name__ == "__main__":
 
     data = MnistLoader(flatten=config["flatten"], data_path=args.data_dir, var_per=0.80)
     model = locate("models.%s.%s" % (args.method, config["model_name"]))(in_features=data.data_train.shape[1])
+    print('data & model prepared, start to train')
     if args.resume:
         model_path, config["last_epoch"] = latest_model(args.model_dir, args.method)
         print("Loading latest model from %s" % model_path)
         model.load_state_dict(torch.load(model_path))
-    if torch.cuda.is_available():
+    if args.cuda and torch.cuda.is_available():
         model = model.cuda()
     model.train()
     optimizer = locate("torch.optim.%s" % config["optimizer"])(model.parameters(), lr = config["lr"], weight_decay=config["weight_decay"])
