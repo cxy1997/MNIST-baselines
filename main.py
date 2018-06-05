@@ -6,7 +6,7 @@ import numpy as np
 import torch
 from pydoc import locate
 from data_loader import MnistLoader
-from utils import init_dir, show_config, setup_logger, latest_model
+from utils import init_dir, show_config, setup_logger, load_model
 
 parser = argparse.ArgumentParser(description="MNIST classifiers")
 parser.add_argument("--method", type=str, default="drop_connect")
@@ -25,7 +25,6 @@ if __name__ == "__main__":
     for arg in vars(args):
         config[arg] = getattr(args, arg)
     show_config(config)
-    config["last_epoch"] = 0
     
     init_dir(args.model_dir)
     init_dir(args.log_dir)
@@ -38,9 +37,12 @@ if __name__ == "__main__":
     model = locate("models.%s.%s" % (args.method, config["model_name"]))(in_features=data.data_train.shape[1])
     print('data & model prepared, start to train')
     if args.resume:
-        model_path, config["last_epoch"] = latest_model(args.model_dir, args.method)
-        print("Loading latest model from %s" % model_path)
-        model.load_state_dict(torch.load(model_path))
+        model_path, config["last_epoch"], config["best_accuracy"] = load_model(args.model_dir, args.method)
+        if model_path is not None:
+            print("Loading latest model from %s" % model_path)
+            model.load_state_dict(torch.load(model_path))
+    else:
+        config["last_epoch"], config["best_accuracy"] = 0, 0.0
     if args.cuda and torch.cuda.is_available():
         model = model.cuda()
     model.train()
