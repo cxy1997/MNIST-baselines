@@ -16,7 +16,7 @@ parser.add_argument("--config-dir", type=str, default="config")
 parser.add_argument("--data-dir", type=str, default="data")
 parser.add_argument("--model-dir", type=str, default="trained_models")
 parser.add_argument("--log-dir", type=str, default="logs")
-parser.add_argument("--cuda", type=bool, default=False)
+parser.add_argument("--cuda", type=bool, default=True)
 
 if __name__ == "__main__":
     args = parser.parse_args()
