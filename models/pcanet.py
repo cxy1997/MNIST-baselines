@@ -8,16 +8,16 @@ from chainer.functions import convolution_2d
 import numpy as np
 from sklearn.decomposition import IncrementalPCA
 
-from utils import gpu_enabled
+# from utils import gpu_enabled
 
 
-if gpu_enabled():
-    try:
-        import cupy as xp
-    except ImportError:
-        import numpy as xp
-else:
-    import numpy as xp
+# if gpu_enabled():
+#     try:
+#         import cupy as xp
+#     except ImportError:
+#         import numpy as xp
+# else:
+import numpy as xp
 
 
 def steps(image_shape, filter_shape, step_shape):
@@ -273,9 +273,9 @@ class PCANet(object):
             filter_shape=self.filter_shape_l1,
         )
 
-        if gpu_enabled():
-            images = to_gpu(images)
-            filters_l1 = to_gpu(filters_l1)
+        # if gpu_enabled():
+        #     images = to_gpu(images)
+        #     filters_l1 = to_gpu(filters_l1)
 
         images = convolution_2d(
             images,
@@ -283,9 +283,9 @@ class PCANet(object):
             stride=self.step_shape_l1
         ).data
 
-        if gpu_enabled():
-            images = to_cpu(images)
-            filters_l1 = to_cpu(filters_l1)
+        # if gpu_enabled():
+        #     images = to_cpu(images)
+        #     filters_l1 = to_cpu(filters_l1)
 
         # images.shape == (n_images, L1, y, x)
         images = images.reshape(-1, *images.shape[2:4])
@@ -315,10 +315,10 @@ class PCANet(object):
             filter_shape=self.filter_shape_l2
         )
 
-        if gpu_enabled():
-            images = to_gpu(images)
-            filters_l1 = to_gpu(filters_l1)
-            filters_l2 = to_gpu(filters_l2)
+        # if gpu_enabled():
+        #     images = to_gpu(images)
+        #     filters_l1 = to_gpu(filters_l1)
+        #     filters_l2 = to_gpu(filters_l2)
 
         images = convolution_2d(
             images,
@@ -353,8 +353,8 @@ class PCANet(object):
         # concatenate over L1
         X = xp.hstack(X)
 
-        if gpu_enabled():
-            X = to_cpu(X)
+        # if gpu_enabled():
+        #     X = to_cpu(X)
 
         X = X.astype(np.float64)
 
