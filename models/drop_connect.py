@@ -32,15 +32,9 @@ class drop_connect_net(nn.Module):
     def __init__(self, in_features=2025, classes=10, prob=0.5, bias=True):
         super(drop_connect_net, self).__init__()
 
-        self.dc1 = drop_connect_layer(in_features, 2000, prob=prob, bias=bias)
-        self.dc2 = drop_connect_layer(2000, 1000, prob=prob, bias=bias)
-        self.dc3 = drop_connect_layer(1000, 500, prob=prob, bias=bias)
-        self.dc4 = drop_connect_layer(500, 100, prob=prob, bias=bias)
-        self.dc5 = drop_connect_layer(100, classes, prob=prob, bias=bias)
+        self.dc1 = nn.Linear(in_features, 600)#drop_connect_layer(in_features, 2000, prob=prob, bias=bias)
+        self.dc2 = nn.Linear(600, classes)#drop_connect_layer(20, classes, prob=prob, bias=bias)
 
     def forward(self, x):
-        x = F.tanh(self.dc1(x))
-        x = F.tanh(self.dc2(x))
-        x = F.tanh(self.dc3(x))
-        x = F.tanh(self.dc4(x))
-        return self.dc5(x)
+        x = F.relu(self.dc1(x))
+        return self.dc2(x)

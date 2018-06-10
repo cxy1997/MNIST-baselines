@@ -1,0 +1,17 @@
+{
+    "model_name": "DenseNet161",
+    "flatten": false,
+    "seed": 233,
+    "epochs": 350,
+    "save_freq": 0,
+    "best_acc": 0.0,
+    "batch_size": 50,
+    "optimizer": "SGD",
+    "lr": 0.1,
+    "lr_decay_epoch": [150, 225, 300],
+    "lr_decay_rate": 0.1,
+    "momentum": 0.9,
+    "weight_decay": 5e-4,
+    "criterion": "CrossEntropyLoss",
+    "trainer": "CNN_trainer"
+}
