@@ -20,7 +20,7 @@ def percentage2n(eigVals,percentage):
         if tmpSum >= arraySum * percentage:
             return num
 
-def pca(dataMat,percentage=0.99):
+def pca(dataMat, percentage=0.99):
     dataMat,meanVal=zeroMean(dataMat)
     # print "datamat type :" + str(type(dataMat))
 
@@ -45,4 +45,4 @@ def pca(dataMat,percentage=0.99):
 
     lowDDataMat=dataMat*n_eigVect               #低维特征空间的数据
     # reconMat=(lowDDataMat*n_eigVect.T)+meanVal  #重构数据
-    return np.array(lowDDataMat)
+    return np.array(lowDDataMat), np.array(lowDDataMat).shape

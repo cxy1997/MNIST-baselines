@@ -73,8 +73,9 @@ class MnistLoader(object):
         # im.save("demo.png")
 
     def pca(self, var_per=0.99):
-        lowD_train = pca(self.data_train, var_per).astype(np.float32)
-        pca_op = PCA(n_components=lowD_train.shape[1])
+        _, dim = pca(self.data_train, var_per)
+        pca_op = PCA(n_components=dim[1])
+        lowD_train = pca_op.fit_transform(self.data_train).astype(np.float32)
         lowD_test = pca_op.fit_transform(self.data_test).astype(np.float32)
 
         print('training set shape: ', lowD_train.shape)

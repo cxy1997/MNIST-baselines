@@ -9,7 +9,7 @@ from data_loader import MnistLoader
 from utils import init_dir, show_config, setup_logger, load_model
 
 parser = argparse.ArgumentParser(description="MNIST classifiers")
-parser.add_argument("--method", type=str, default="drop_connect")
+parser.add_argument("--method", type=str, default="mlp")
 
 parser.add_argument("--resume", action="store_true")
 parser.add_argument("--config-dir", type=str, default="config")
