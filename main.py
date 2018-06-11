@@ -6,16 +6,17 @@ import numpy as np
 import torch
 from pydoc import locate
 from data_loader import MnistLoader
-from utils import init_dir, show_config, setup_logger, latest_model
+from utils import init_dir, show_config, setup_logger, load_model
 
 parser = argparse.ArgumentParser(description="MNIST classifiers")
-parser.add_argument("--method", type=str, default="drop_connect")
+parser.add_argument("--method", type=str, default="mlp")
 
 parser.add_argument("--resume", action="store_true")
 parser.add_argument("--config-dir", type=str, default="config")
 parser.add_argument("--data-dir", type=str, default="data")
 parser.add_argument("--model-dir", type=str, default="trained_models")
 parser.add_argument("--log-dir", type=str, default="logs")
+parser.add_argument("--cuda", type=bool, default=True)
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -24,7 +25,6 @@ if __name__ == "__main__":
     for arg in vars(args):
         config[arg] = getattr(args, arg)
     show_config(config)
-    config["last_epoch"] = 0
     
     init_dir(args.model_dir)
     init_dir(args.log_dir)
@@ -33,13 +33,17 @@ if __name__ == "__main__":
     torch.manual_seed(config["seed"])
     torch.set_default_tensor_type('torch.FloatTensor')
 
-    data = MnistLoader(flatten=config["flatten"], data_path=args.data_dir)
-    model = locate("models.%s.%s" % (args.method, config["model_name"]))()
+    data = MnistLoader(flatten=config["flatten"], data_path=args.data_dir, var_per=0.80)
+    model = locate("models.%s.%s" % (args.method, config["model_name"]))(in_features=data.data_train.shape[1])
+    print('data & model prepared, start to train')
     if args.resume:
-        model_path, config["last_epoch"] = latest_model(args.model_dir, args.method)
-        print("Loading latest model from %s" % model_path)
-        model.load_state_dict(torch.load(model_path))
-    if torch.cuda.is_available():
+        model_path, config["last_epoch"], config["best_accuracy"] = load_model(args.model_dir, args.method)
+        if model_path is not None:
+            print("Loading latest model from %s" % model_path)
+            model.load_state_dict(torch.load(model_path))
+    else:
+        config["last_epoch"], config["best_accuracy"] = 0, 0.0
+    if args.cuda and torch.cuda.is_available():
         model = model.cuda()
     model.train()
     optimizer = locate("torch.optim.%s" % config["optimizer"])(model.parameters(), lr = config["lr"], momentum=config["momentum"], weight_decay=config["weight_decay"])
