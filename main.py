@@ -16,6 +16,7 @@ parser.add_argument("--config-dir", type=str, default="config")
 parser.add_argument("--data-dir", type=str, default="data")
 parser.add_argument("--model-dir", type=str, default="trained_models")
 parser.add_argument("--log-dir", type=str, default="logs")
+parser.add_argument("--last-epoch", type=int, default=-1)
 parser.add_argument("--cuda", type=bool, default=True)
 
 if __name__ == "__main__":
@@ -23,7 +24,8 @@ if __name__ == "__main__":
     with open(os.path.join(args.config_dir, "%s.json" % args.method)) as f:
         config = json.load(f)
     for arg in vars(args):
-        config[arg] = getattr(args, arg)
+        if arg not in config.keys():
+            config[arg] = getattr(args, arg)
     show_config(config)
     
     init_dir(args.model_dir)
@@ -37,16 +39,14 @@ if __name__ == "__main__":
     model = locate("models.%s.%s" % (args.method, config["model_name"]))(in_features=data.data_train.shape[1])
     print('data & model prepared, start to train')
     if args.resume:
-        model_path, config["last_epoch"], config["best_accuracy"] = load_model(args.model_dir, args.method)
-        if model_path is not None:
+        model_path = os.path.join(config["model_dir"], "%s_model.pth" % config["method"])
+        if os.path.exists(model_path):
             print("Loading latest model from %s" % model_path)
             model.load_state_dict(torch.load(model_path))
-    else:
-        config["last_epoch"], config["best_accuracy"] = 0, 0.0
     if args.cuda and torch.cuda.is_available():
         model = model.cuda()
     model.train()
-    optimizer = locate("torch.optim.%s" % config["optimizer"])(model.parameters(), lr = config["lr"], momentum=config["momentum"], weight_decay=config["weight_decay"])
+    optimizer = locate("torch.optim.%s" % config["optimizer_type"])(model.parameters(), **config["optimizer"])
     logger = setup_logger(args.method, os.path.join(args.log_dir, "%s.log" % args.method), resume=args.resume)
 
     train = locate("trainers.%s.train" % config["trainer"])

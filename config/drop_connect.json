@@ -3,10 +3,16 @@
     "flatten": true,
     "seed": 233,
     "epochs": 100000,
-    "save_freq": 0,
+    "best_acc": 0.0,
     "batch_size": 32,
-    "optimizer": "Adam",
-    "lr": 5e-6,
-    "weight_decay": 0.001,
-    "criterion": "CrossEntropyLoss"
+    "optimizer_type": "SGD",
+    "optimizer": {
+        "lr": 0.1,
+        "momentum": 0.9,
+        "weight_decay": 5e-4
+    },
+    "lr_decay_epoch": [150, 225, 300],
+    "lr_decay_rate": 0.1,
+    "criterion": "CrossEntropyLoss",
+    "trainer": "drop_connect_trainer"
 }

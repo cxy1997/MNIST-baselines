@@ -50,15 +50,5 @@ def show_config(config):
         print('  %s: %s' % (key, str(config[key])))
     print('========================================')
 
-def load_model(model_dir, model_name):
-    model_path = os.path.join(model_dir, model_name, "model.pth")
-    metadata_path = os.path.join(model_dir, model_name, "metadata.json")
-    if os.path.exists(model_path) and os.path.exists(metadata_path):
-        with open(metadata_path) as f:
-            config = json.load(f)
-        return model_path, config["last_epoch"], config["best_accuracy"]
-    else:
-        return None, 0, 0
-
 if __name__ == "__main__":
     print(latest_model("trained_models", "drop_connect"))
