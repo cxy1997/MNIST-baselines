@@ -6,7 +6,7 @@ import numpy as np
 import torch
 from pydoc import locate
 from data_loader import MnistLoader
-from utils import init_dir, show_config, setup_logger, load_model
+from utils import init_dir, show_config, setup_logger
 
 parser = argparse.ArgumentParser(description="MNIST classifiers")
 parser.add_argument("--method", type=str, default="mlp")
@@ -35,8 +35,8 @@ if __name__ == "__main__":
     torch.manual_seed(config["seed"])
     torch.set_default_tensor_type('torch.FloatTensor')
 
-    data = MnistLoader(flatten=config["flatten"], data_path=args.data_dir, var_per=0.80)
-    model = locate("models.%s.%s" % (args.method, config["model_name"]))(in_features=data.data_train.shape[1])
+    data = MnistLoader(flatten=config["flatten"], data_path=args.data_dir)
+    model = locate("models.%s.%s" % (args.method, config["model_name"]))()
     print('data & model prepared, start to train')
     if args.resume:
         model_path = os.path.join(config["model_dir"], "%s_model.pth" % config["method"])

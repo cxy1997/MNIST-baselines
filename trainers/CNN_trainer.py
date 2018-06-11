@@ -59,6 +59,7 @@ def train(data, model, optimizer, logger, config):
 
         if accuracy > config["best_acc"]:
             config["best_acc"] = accuracy
+            config["last_epoch"] = epoch
             torch.save(model.state_dict(), os.path.join(config["model_dir"], "%s_model.pth" % config["method"]))
             with open(os.path.join(config["config_dir"], "%s.json" % config["method"]), 'w') as f:
                 json.dump(config, f, indent=4)
