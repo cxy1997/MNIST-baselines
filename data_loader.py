@@ -104,17 +104,10 @@ class NormalMnistLoader(object):
         self.data_test = np.load(os.path.join(data_path, 'mnist_test_normal', 'mnist_test_data.npy')).astype(np.float32)
         self.label_test = np.load(os.path.join(data_path, 'mnist_test_normal', 'mnist_test_label.npy')).astype(np.int64)
 
-<<<<<<< HEAD
         self.mean = self.MEAN # self.data_train.mean()
         self.std = self.STD # self.data_train.std()
         self.data_train = (self.data_train - self.mean) / self.std
         self.data_test = (self.data_test - self.mean) / self.std
-=======
-        # self.mean = 0 # self.MEAN # self.data_train.mean()
-        # self.std = 255.0 # self.STD # self.data_train.std()
-        # self.data_train = (self.data_train - self.mean) / self.std
-        # self.data_test = (self.data_test - self.mean) / self.std
->>>>>>> afe2e62aec5862afa648d612d31fcdc30583065c
 
         if flatten:
             self.data_train = self.data_train.reshape(self.data_train.shape[0], -1)
