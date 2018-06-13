@@ -1,4 +1,4 @@
-# data loader for mnist dataset
+﻿# data loader for mnist dataset
 # the path is based on root dictory of mnist_project
 
 import os

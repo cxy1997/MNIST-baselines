@@ -30,7 +30,6 @@ if __name__ == "__main__":
     
     init_dir(args.model_dir)
     init_dir(args.log_dir)
-    init_dir(os.path.join(args.model_dir, args.method))
     np.random.seed(config["seed"])
     torch.manual_seed(config["seed"])
     torch.set_default_tensor_type('torch.FloatTensor')
