@@ -1,0 +1,16 @@
+{
+    "model_name": "CapsNet",
+    "flatten": true,
+    "seed": 233,
+    "epochs": 350,
+    "best_acc": 0.0,
+    "batch_size": 512,
+    "optimizer_type": "Adam",
+    "optimizer": {
+        "lr": 0.001
+    },
+    "lr_decay_epoch": [150, 225, 300],
+    "lr_decay_rate": 0.1,
+    "criterion": "CrossEntropyLoss",
+    "trainer": "capsnet_trainer"
+}
