@@ -20,6 +20,18 @@ This repository contains various baseline models for comparison on the *polluted
 
 ## Feature Extraction
 
+* [PCA]()
+
+* [ICA]()
+
+* [NMF]()
+
+* [VAE]()
+
+A visualization of the first 15 principle components:
+
+![Missing](https://raw.githubusercontent.com/cxy1997/MNIST-baselines/master/figures/pca_res.png)
+
 ## Conventional Classification Approaches
 
 | Model | Accuracy / % | Model | Accuracy / % |
@@ -30,6 +42,12 @@ This repository contains various baseline models for comparison on the *polluted
 | KNN (5 neighbours) | 78.46 | KNN (10 neighbours) | 76.40 |
 | SGD | 22.30 | SVM (sigmoid kernel) | 10.84 |
 | SVM (rbf kernel) | 85.94 | SVM (polynomial kernel) | 87.11 |
+
+The training curves of the above DNN models:
+
+![Missing](https://raw.githubusercontent.com/cxy1997/MNIST-baselines/master/figures/dnn_accuracy.png)
+![Missing](https://raw.githubusercontent.com/cxy1997/MNIST-baselines/master/figures/dnn_loss.png)
+
 
 ## Deep Convolutional Neural Networks
 | Model | Accuracy / % | Model | Accuracy / % |

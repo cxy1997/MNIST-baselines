@@ -4,7 +4,7 @@ import numpy as np
 import copy
 import matplotlib.pyplot as plt
 
-models = {'vgg':           'VGG-19',
+cnn_models = {'vgg':       'VGG-19',
           'resnet':        'ResNet-101',
           'preact_resnet': 'PreActResNet-152',
           'googlenet':     'GoogLeNet',
@@ -18,6 +18,17 @@ models = {'vgg':           'VGG-19',
           'capsnet':       'CapsNet',
           'pnasnet':       'PNASNet',
           'lenet':         'LeNet'}
+
+dnn_models = {'pure_dnn': 'DNN',
+          'drop_connect': 'DNN + Dropout',
+          'dnn0.95pca': 'DNN + PCA (0.95 covariance)',
+          'dnn0.99pca': 'DNN + PCA (0.99 covariance)',
+          'dnn_batchnorm': 'DNN + Batch Normalization',
+          'dnn_vae': 'DNN + VAE',
+          'dnn_ica': 'DNN + ICA',
+          'dnn_nmf': 'DNN + NMF',}
+
+all_models = {'CNN': cnn_models, 'DNN': dnn_models}
 
 def smooth(array, m=2):
     _array = copy.deepcopy(array)
@@ -40,7 +51,9 @@ def plot_single(method):
     acc = smooth(acc)
     plt.plot(epoch, acc)
 
-def plot_all():
+def plot_all(model_class):
+    models = all_models.get(model_class)
+
     plt.figure(figsize = (8, 5))
     legend = []
     for key in models.keys():
@@ -51,8 +64,8 @@ def plot_all():
     plt.ylim((86, 100))
     plt.legend(legend)
     plt.tight_layout()
-    plt.savefig('logs/figures/accuracy.png', dpi = 300)
+    plt.savefig('logs/figures/%s_accuracy.png' % model_class, dpi = 300)
 
 
 if __name__ == '__main__':
-    plot_all()
+    plot_all('CNN')
