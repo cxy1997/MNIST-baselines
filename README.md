@@ -51,7 +51,6 @@ A visualization of the first 15 principle components:
 
 The training curves of the above DNN models:
 
-=======
 <figure class="half">
     <img src="./figures/dnn_accuracy.png" width="70%">
     <img src="./figures/dnn_loss.png" width="70%">
