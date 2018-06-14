@@ -18,9 +18,18 @@ This repository contains various baseline models for comparison on the *polluted
 
 ## *Polluted MNIST*
 
-## Feature Selection
+## Feature Extraction
 
 ## Conventional Classification Approaches
+
+| Model | Accuracy / % | Model | Accuracy / % |
+| :---- |:------------:| :---- |:------------:|
+| Empty Model | 11.04 | Naive Bayes | 19.14 |
+| Logistic Regression | 24.37 | Decision Tree (gini) | 51.24 |
+| Decision Tree (entropy) | 50.91 | KNN (3 neighbours) | 78.82 |
+| KNN (5 neighbours) | 78.46 | KNN (10 neighbours) | 76.40 |
+| SGD | 22.30 | SVM (sigmoid kernel) | 10.84 |
+| SVM (rbf kernel) | 85.94 | SVM (polynomial kernel) | 87.11 |
 
 ## Deep Convolutional Neural Networks
 | Model | Accuracy / % | Model | Accuracy / % |
