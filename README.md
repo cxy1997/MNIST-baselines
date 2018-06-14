@@ -24,20 +24,19 @@ This repository contains various baseline models for comparison on the *polluted
 
 ## Feature Extraction
 
-* [PCA](https://onlinelibrary.wiley.com/doi/10.1002/9781118887486.ch3)
-
-* [ICA](https://link.springer.com/chapter/10.1007/978-1-4757-2851-4_2)
-
-* [NMF](https://www.cs.princeton.edu/courses/archive/spring12/cos424/pdf/lee-seung.pdf)
-
-* [VAE](https://arxiv.org/pdf/1312.6114)
-
 A visualization of the first 15 principle components:
 
-=======
 <figure class="half">
     <img src="./figures/pca_res.png" width="70%">
 </figure>
+
+| Model | Accuracy / % | Model | Accuracy / % |
+| :---- |:------------:| :---- |:------------:|
+| Plain DNN | 90.72 | DNN + Dropout | 90.74 |
+| DNN + Batch Normalization | 92.39 | DNN + PCA (0.99 variance) | 21.40 |
+| DNN + PCA (0.95 variance) | 21.34 | DNN + PCA (0.90 variance) | 20.55 |
+| DNN + ICA | 11.93 | DNN + NMF | 11.30 |
+| DNN + VAE | **95.24** | 
 
 ## Conventional Classification Approaches
 
@@ -48,7 +47,7 @@ A visualization of the first 15 principle components:
 | Decision Tree (entropy) | 50.91 | KNN (3 neighbours) | 78.82 |
 | KNN (5 neighbours) | 78.46 | KNN (10 neighbours) | 76.40 |
 | SGD | 22.30 | SVM (sigmoid kernel) | 10.84 |
-| SVM (rbf kernel) | 85.94 | SVM (polynomial kernel) | 87.11 |
+| SVM (rbf kernel) | 85.94 | SVM (polynomial kernel) | **87.11** |
 
 The training curves of the above DNN models:
 
