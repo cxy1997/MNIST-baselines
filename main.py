@@ -12,10 +12,12 @@ parser = argparse.ArgumentParser(description="MNIST classifiers")
 parser.add_argument("--method", type=str, default="mlp")
 
 parser.add_argument("--resume", action="store_true")
+parser.add_argument("--test", action="store_true")
 parser.add_argument("--config-dir", type=str, default="config")
 parser.add_argument("--data-dir", type=str, default="data")
 parser.add_argument("--model-dir", type=str, default="trained_models")
 parser.add_argument("--log-dir", type=str, default="logs")
+parser.add_argument("--output-dir", type=str, default="outputs")
 parser.add_argument("--last-epoch", type=int, default=-1)
 parser.add_argument("--cuda", type=bool, default=True)
 
@@ -36,8 +38,7 @@ if __name__ == "__main__":
 
     data = MnistLoader(flatten=config["flatten"], data_path=args.data_dir)
     model = locate("models.%s.%s" % (args.method, config["model_name"]))()
-    print('data & model prepared, start to train')
-    if args.resume:
+    if args.resume or args.test:
         model_path = os.path.join(config["model_dir"], "%s_model.pth" % config["method"])
         if os.path.exists(model_path):
             print("Loading latest model from %s" % model_path)
@@ -48,6 +49,9 @@ if __name__ == "__main__":
     optimizer = locate("torch.optim.%s" % config["optimizer_type"])(model.parameters(), **config["optimizer"])
     logger = setup_logger(args.method, os.path.join(args.log_dir, "%s.log" % args.method), resume=args.resume)
 
-    train = locate("trainers.%s.train" % config["trainer"])
-    train(data, model, optimizer, logger, config)
+    if args.test:
+        f = locate("trainers.%s.test" % config["trainer"])
+    else:
+        f = locate("trainers.%s.train" % config["trainer"])
+    f(data, model, optimizer, logger, config)
     

@@ -8,6 +8,7 @@ from sklearn.metrics import accuracy_score
 import os
 import json
 from pydoc import locate
+from utils import init_dir
 
 def train(data, model, optimizer, logger, config):
     criterion = locate("torch.nn.%s" % config["criterion"])()
@@ -50,3 +51,20 @@ def train(data, model, optimizer, logger, config):
                 json.dump({"best_accuracy": accuracy, "last_epoch": epoch}, f)
             torch.save(model.state_dict(), os.path.join(config["model_dir"], config["method"], "model.pth"))
             
+def test(data, model, optimizer, logger, config):
+    test_batches = (data.DATA_SIZE[1] + config["batch_size"] - 1) // config["batch_size"]
+    for param in model.parameters():
+        param.requires_grad = False
+    model.eval()
+
+    prediction = np.zeros(data.DATA_SIZE[1], dtype=np.uint8)
+    for i in range(test_batches):
+        inputs = Variable(torch.from_numpy(data.data_test[i * config["batch_size"]: min((i + 1) * config["batch_size"], data.DATA_SIZE[1]), :]), requires_grad=False).view(-1, 1, 45, 45)
+        if config["cuda"] and torch.cuda.is_available():
+            inputs = inputs.cuda()
+        outputs = model(inputs)
+        prediction[i * config["batch_size"]: min((i + 1) * config["batch_size"], data.DATA_SIZE[1])] = np.argmax(outputs.data.cpu().numpy(), axis=1)
+
+    print('Accuracy: %0.2f' % (100 * accuracy_score(data.label_test, prediction)))
+    init_dir(config['output_dir'])
+    np.save(os.path.join(config['output_dir'], '%s_pred.npy' % config['method']), prediction)
