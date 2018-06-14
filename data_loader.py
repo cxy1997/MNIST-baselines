@@ -6,8 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 
-from pca import pca
-
 class MnistLoader(object):
     DATA_SIZE = (60000, 10000)      # number of figures
     FIG_W = 45                      # width of each figure

@@ -52,8 +52,8 @@ def train(data, model, optimizer, logger, config):
         accuracy = accuracy_score(data.label_test, prediction)
         logger.info("Epoch: %d, loss: %0.6f, accuracy: %0.6f" % (epoch, loss.data.cpu().numpy(), accuracy))
 
-        if accuracy > config["best_accuracy"]:
-            config["best_accuracy"] = accuracy
+        if accuracy > config["best_acc"]:
+            config["best_acc"] = accuracy
             with open(os.path.join(config['model_dir'], config['method'], 'metadata.json'), 'w') as f:
                 json.dump({"best_accuracy": accuracy, "last_epoch": epoch}, f)
             torch.save(model.state_dict(), os.path.join(config["model_dir"], config["method"], "model.pth"))

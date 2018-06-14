@@ -11,7 +11,7 @@ from utils import init_dir, show_config, setup_logger
 parser = argparse.ArgumentParser(description="MNIST classifiers")
 parser.add_argument("--traditional-methods", type=bool, default=False)
 parser.add_argument("--method", type=str, default="dnn")
-parser.add_argument("--feature-extracting-method", type=str, default=None)
+parser.add_argument("--feature-extracting-method", type=str, default="skPCA")
 
 parser.add_argument("--resume", action="store_true")
 parser.add_argument("--test", action="store_true")
@@ -22,6 +22,7 @@ parser.add_argument("--log-dir", type=str, default="logs")
 parser.add_argument("--output-dir", type=str, default="outputs")
 parser.add_argument("--last-epoch", type=int, default=-1)
 parser.add_argument("--cuda", type=bool, default=True)
+parser.add_argument("--dim", type=int, default=566)
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -48,10 +49,12 @@ if __name__ == "__main__":
 
         # apply feature extraction on data
         if args.feature_extracting_method != None:
-            data.data_train = locate("utils.%s" % args.feature_extracting_method)
-            data.data_test = locate("utils.%s" % args.feature_extracting_method
+            f_t = locate("utils.%s" % args.feature_extracting_method)
+            data.data_train = f_t(data.data_train, args.dim).astype(np.float32)
+            data.data_test = f_t(data.data_test, args.dim).astype(np.float32)
 
-        model = locate("models.%s.%s" % (args.method, config["model_name"]))()
+        # initialize model
+        model = locate("models.%s.%s" % (args.method, config["model_name"]))(in_features=data.data_train.shape[1])
         if args.resume or args.test:
             model_path = os.path.join(config["model_dir"], "%s_model.pth" % config["method"])
             if os.path.exists(model_path):
@@ -60,6 +63,8 @@ if __name__ == "__main__":
         if args.cuda and torch.cuda.is_available():
             model = model.cuda()
         model.train()
+
+        # initialize optimizer
         optimizer = locate("torch.optim.%s" % config["optimizer_type"])(model.parameters(), **config["optimizer"])
         logger = setup_logger(args.method, os.path.join(args.log_dir, "%s.log" % args.method), resume=args.resume)
 
