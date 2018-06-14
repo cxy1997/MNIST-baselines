@@ -7,6 +7,9 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 import logging
 
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.decomposition import FactorAnalysis, FastICA, PCA, NMF, LatentDirichletAllocation
+
 def init_dir(dir):
     if not os.path.isdir(dir):
         os.mkdir(dir)
@@ -49,6 +52,33 @@ def show_config(config):
     for key in config.keys():
         print('  %s: %s' % (key, str(config[key])))
     print('========================================')
+
+# Feature Extraction
+def FA(data, dim):
+    fa = FactorAnalysis(n_components=dim)
+    fa.fit(data)
+    return fa.transform(data)
+
+def ICA(data, dim):
+    ica = FastICA(n_components=dim)
+    ica.fit(data)
+    return ica.transform(data)
+
+def skPCA(data, dim):
+    model = PCA(n_components=dim)
+    model.fit(data)
+    return model.transform(data)
+
+def skNMF(data, dim):
+    model = NMF(n_components=dim)
+    model.fit(data)
+    return model.transform(data)
+
+# Max-min norm
+def max_min(data):
+    model = MinMaxScaler()
+    model.fit(data)
+    return model.transform(data)
 
 if __name__ == "__main__":
     print(latest_model("trained_models", "drop_connect"))
