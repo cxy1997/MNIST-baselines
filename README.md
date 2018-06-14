@@ -67,6 +67,11 @@ The training curves of the above DNN models:
 | [DPN-92](https://arxiv.org/pdf/1707.01629.pdf) | 99.76 | [SENet-18](https://arxiv.org/pdf/1709.01507.pdf) | 99.69 |
 | [MobileNet](https://arxiv.org/pdf/1704.04861.pdf) | 99.44 | [CapsNet](https://arxiv.org/pdf/1710.09829.pdf) | 98.84 |
 
+<figure class="half">
+    <img src="./figures/cnn_accuracy.png" width="70%">
+    <img src="./figures/cnn_loss.png" width="70%">
+</figure>
+
 ## Faults Analysis
 <figure class="half">
     <img src="./figures/faults.png" width="70%">
