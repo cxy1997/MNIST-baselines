@@ -71,3 +71,8 @@ The training curves of the above DNN models:
 <figure class="half">
     <img src="./figures/faults.png" width="70%">
 </figure>
+
+## Team Members
+- [Xiangyu Chen](https://github.com/cxy1997)
+- [Zelin Ye](https://github.com/shinshiner)
+- [Yiheng Zhang](https://github.com/StanwieCB)
