@@ -18,6 +18,10 @@ This repository contains various baseline models for comparison on the *polluted
 
 ## *Polluted MNIST*
 
+<figure class="half">
+    <img src="./figures/dataset_demo.png" width="100%">
+</figure>
+
 ## Feature Extraction
 
 * [PCA]()
@@ -30,7 +34,9 @@ This repository contains various baseline models for comparison on the *polluted
 
 A visualization of the first 15 principle components:
 
-![Missing](https://raw.githubusercontent.com/cxy1997/MNIST-baselines/master/figures/pca_res.png)
+<figure class="half">
+    <img src="./figures/pca_res.png" width="70%">
+</figure>
 
 ## Conventional Classification Approaches
 
@@ -45,9 +51,10 @@ A visualization of the first 15 principle components:
 
 The training curves of the above DNN models:
 
-![Missing](https://raw.githubusercontent.com/cxy1997/MNIST-baselines/master/figures/dnn_accuracy.png)
-![Missing](https://raw.githubusercontent.com/cxy1997/MNIST-baselines/master/figures/dnn_loss.png)
-
+<figure class="half">
+    <img src="./figures/dnn_accuracy.png" width="70%">
+    <img src="./figures/dnn_loss.png" width="70%">
+</figure>
 
 ## Deep Convolutional Neural Networks
 | Model | Accuracy / % | Model | Accuracy / % |
