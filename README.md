@@ -24,23 +24,20 @@ This repository contains various baseline models for comparison on the *polluted
 
 ## Feature Extraction
 
-* [PCA]()
+* [PCA](https://onlinelibrary.wiley.com/doi/10.1002/9781118887486.ch3)
 
-* [ICA]()
+* [ICA](https://link.springer.com/chapter/10.1007/978-1-4757-2851-4_2)
 
-* [NMF]()
+* [NMF](https://www.cs.princeton.edu/courses/archive/spring12/cos424/pdf/lee-seung.pdf)
 
-* [VAE]()
+* [VAE](https://arxiv.org/pdf/1312.6114)
 
 A visualization of the first 15 principle components:
-
-<<<<<<< HEAD
 
 =======
 <figure class="half">
     <img src="./figures/pca_res.png" width="70%">
 </figure>
->>>>>>> 863e0b66542f2f2389f25c712a30ccb9b56083b8
 
 ## Conventional Classification Approaches
 
@@ -55,14 +52,11 @@ A visualization of the first 15 principle components:
 
 The training curves of the above DNN models:
 
-<<<<<<< HEAD
-
 =======
 <figure class="half">
     <img src="./figures/dnn_accuracy.png" width="70%">
     <img src="./figures/dnn_loss.png" width="70%">
 </figure>
->>>>>>> 863e0b66542f2f2389f25c712a30ccb9b56083b8
 
 ## Deep Convolutional Neural Networks
 | Model | Accuracy / % | Model | Accuracy / % |
