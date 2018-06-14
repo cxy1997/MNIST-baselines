@@ -8,9 +8,9 @@ This repository contains various baseline models for comparison on the *polluted
 
 ## Usage
 ### Create a model
-1. Prepare `Model_Name.json` in `config/`
-2. Prepare `Model_Name.py` in `models/`
-3. Prepare `Trainer_Name.py` in `trainers/` (optional) 
+1. Prepare `Model_Name.json` in [`config/`](./config)
+2. Prepare `Model_Name.py` in [`models/`](./models)
+3. Prepare `Trainer_Name.py` in [`trainers/`](./trainers) (optional) 
 ### Train a model
 `python3 main.py --method Model_Name`
 ### Test a model
