@@ -15,6 +15,8 @@ This repository contains various baseline models for comparison on the *polluted
 `python3 main.py --method Model_Name`
 ### Test a model
 `python3 main.py --method Model_Name --test`
+### Pretrained models
+Available at [https://drive.google.com/open?id=1jXe2kJJLkhGH8T30juGbyUgsaDQZXISu](https://drive.google.com/open?id=1jXe2kJJLkhGH8T30juGbyUgsaDQZXISu)
 
 ## *Polluted MNIST*
 
