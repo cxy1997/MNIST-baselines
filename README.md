@@ -74,7 +74,7 @@ The training curves of the above DNN models:
     <img src="./figures/cnn_loss.png" width="70%">
 </figure>
 
-## Faults Analysis
+## Error Analysis
 <figure class="half">
     <img src="./figures/faults.png" width="70%">
 </figure>
