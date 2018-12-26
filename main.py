@@ -48,13 +48,16 @@ if __name__ == "__main__":
         data = MnistLoader(flatten=config["flatten"], data_path=args.data_dir)
 
         # apply feature extraction on data
-        if args.feature_extracting_method != None:
+        if config["flatten"] and args.feature_extracting_method != None:
             f_t = locate("utils.%s" % args.feature_extracting_method)
             data.data_train = f_t(data.data_train, args.dim).astype(np.float32)
             data.data_test = f_t(data.data_test, args.dim).astype(np.float32)
 
         # initialize model
-        model = locate("models.%s.%s" % (args.method, config["model_name"]))(in_features=data.data_train.shape[1])
+        if config["flatten"]:
+            model = locate("models.%s.%s" % (args.method, config["model_name"]))(in_features=data.data_train.shape[1])
+        else:
+            model = locate("models.%s.%s" % (args.method, config["model_name"]))()
         if args.resume or args.test:
             model_path = os.path.join(config["model_dir"], "%s_model.pth" % config["method"])
             if os.path.exists(model_path):
@@ -75,4 +78,3 @@ if __name__ == "__main__":
 
         # start to train or test model
         f(data, model, optimizer, logger, config)
-    
